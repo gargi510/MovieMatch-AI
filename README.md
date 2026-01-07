@@ -205,6 +205,8 @@ docker build -t moviematch-ai .
 # Run container (API + Streamlit UI)
 docker run -p 5000:5000 -p 8501:8501 moviematch-ai
 ```
+
+Access using: http://localhost:8501/
 ---
 
 ## 📖 API Documentation
