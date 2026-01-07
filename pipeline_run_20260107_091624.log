@@ -1,0 +1,82 @@
+======================================================================
+MOVIEMATCH AI - TRAINING PIPELINE RUN: 20260107_091624
+======================================================================
+
+[09:16:24] [STAGE 0] Validating Raw Data...
+  ✓ 3 artifacts verified
+
+[09:16:24] [STAGE 1] Preprocessing...
+============================================================
+PREPROCESSING PIPELINE
+============================================================
+
+[1/4] Preprocessing users...
+[2/4] Preprocessing movies...
+[3/4] Preprocessing ratings...
+[4/4] Computing aggregate features...
+
+============================================================
+✓ Preprocessing complete!
+============================================================
+  ✓ 2 artifacts verified
+
+[09:16:56] [STAGE 2] Candidate Generation...
+Loading data...
+Generating popularity candidates...
+Generating genre-based candidates...
+Combining candidates...
+Candidate generation completed!
+Total candidates: 1,473,754
+  ✓ 1 artifacts verified
+
+[09:17:20] [STAGE 3] Feature Engineering...
+======================================================================
+FEATURE ENGINEERING
+======================================================================
+
+✓ Training data saved: (1000210, 26)
+  Features: 20
+  Positive samples: 575,281 (57.52%)
+======================================================================
+  ✓ 1 artifacts verified
+
+[09:17:56] [STAGE 4] Model Training...
+======================================================================
+RANKING MODEL TRAINING
+======================================================================
+
+Training baseline...
+Training ranker...
+
+Evaluating models...
+
+Baseline - NDCG@10: 0.8731, Precision@10: 0.8601
+Ranker   - NDCG@10: 0.8760, Precision@10: 0.8616
+
+✓ Models saved!
+======================================================================
+✓ Built 241 demographic profiles
+✓ Built 4 regional profiles
+  ✓ 2 artifacts verified
+
+[09:19:43] [STAGE 5] Validation...
+   Testing inference for User 1...
+
+Warm start recommendations for User 1:
+                    Title  item_avg_rating
+Shawshank Redemption, The         4.554558
+              City Lights         4.387454
+           Godfather, The         4.524966
+✓ Built 241 demographic profiles
+✓ Built 4 regional profiles
+
+Cold start recommendations for new user:
+              Title  item_avg_rating
+    American Beauty         4.317386
+Princess Bride, The         4.303710
+Shakespeare in Love         4.127480
+
+======================================================================
+✓ SUCCESS: Pipeline completed in 205.1s
+Log saved to: logs\pipeline_run_20260107_091624.log
+======================================================================
