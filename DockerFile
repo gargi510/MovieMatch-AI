@@ -1,0 +1,42 @@
+FROM python:3.11-slim
+
+LABEL maintainer="your.email@example.com"
+LABEL description="MovieMatch AI - Production Movie Recommendation System"
+
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc g++ curl \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY requirements.txt .
+
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
+
+COPY . .
+
+RUN mkdir -p data/raw data/processed data/candidates data/features models logs
+
+EXPOSE 5000 8501
+
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+    CMD curl -f http://localhost:5000/health || exit 1
+
+ENV FLASK_APP=app.py
+ENV PYTHONUNBUFFERED=1
+
+RUN echo '#!/bin/bash\n\
+echo "Starting MovieMatch AI..."\n\
+if [ ! -f "models/ranker_model.pkl" ]; then\n\
+    echo "Models not found. Running training pipeline..."\n\
+    python run_pipeline.py\n\
+fi\n\
+echo "Starting Flask API on port 5000..."\n\
+python app.py &\n\
+sleep 5\n\
+echo "Starting Streamlit UI on port 8501..."\n\
+streamlit run streamlit_demo.py --server.port 8501 --server.address 0.0.0.0\n\
+' > /app/start.sh && chmod +x /app/start.sh
+
+CMD ["/app/start.sh"]

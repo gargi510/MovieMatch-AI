@@ -1,0 +1,32 @@
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment
+.venv/
+env/
+venv/
+
+# Data files (raw/processed) if large
+data/raw/
+data/processed/
+data/candidates/
+data/features/
+
+# Logs
+logs/
+*.log
+
+# System files
+.DS_Store
+*.swp
+*.swo
+
+# Git
+.git/
+.gitignore
+
+# Docker files
+DockerFile
